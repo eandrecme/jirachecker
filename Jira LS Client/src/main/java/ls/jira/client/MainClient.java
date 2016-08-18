@@ -1,10 +1,10 @@
 package ls.jira.client;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import ls.jira.client.connector.JiraConnector;
+import ls.jira.client.controller.JiraTicketController;
 import net.rcarz.jiraclient.BasicCredentials;
-import net.rcarz.jiraclient.Comment;
-import net.rcarz.jiraclient.CustomFieldOption;
 import net.rcarz.jiraclient.Field;
 import net.rcarz.jiraclient.Issue;
 import net.rcarz.jiraclient.JiraClient;
@@ -18,12 +18,31 @@ public class MainClient {
 
 	/**
 	 * @param args
+	 * @throws MalformedURLException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedURLException {
+		
+		URL jiraUrl = new URL("https://jira.gmi-mr.com/jira");
+		JiraClient jiraClient = JiraConnector.connect(jiraUrl, "eandre", "Renner_20");
+		JiraTicketController ticketController = new JiraTicketController(jiraClient);
+		
+		ticketController.checkQueryTickets("project = DEVCME AND (labels = CME_Stout_Team OR labels = "
+				+ "CME_Stout_team OR assignee = eandre) AND type != Sub-task AND fixVersion = R217 "
+				+ "ORDER BY priority DESC, status DESC, key DESC");
+		
+	}
+	
+	
+	/**
+	 * Method created to hold examples of searches
+	 */
+	public void extraMethod() {
+		
 		BasicCredentials creds = new BasicCredentials("emilianoandre@gmail.com", "yoyoyo11");
         JiraClient jira = new JiraClient("https://voyagerproject.atlassian.net", creds);
 
         try {
+        	System.exit(0);
             /* Retrieve issue TEST-123 from JIRA. We'll get an exception if this fails. */
             Issue issue = jira.getIssue("VOYAG-16");
 
