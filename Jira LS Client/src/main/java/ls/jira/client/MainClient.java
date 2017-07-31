@@ -23,7 +23,7 @@ public class MainClient {
 	public static void main(String[] args) throws MalformedURLException {
 		
 		URL jiraUrl = new URL("https://jira.gmi-mr.com/jira");
-		JiraClient jiraClient = JiraConnector.connect(jiraUrl, "eandre", "Renner_20");
+		JiraClient jiraClient = JiraConnector.connect(jiraUrl, "eandre", "");
 		JiraTicketController ticketController = new JiraTicketController(jiraClient);
 		
 		ticketController.checkQueryTickets("project = DEVCME AND (labels = CME_Stout_Team OR labels = "
